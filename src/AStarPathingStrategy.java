@@ -27,13 +27,13 @@ class AStarPathingStrategy
         if (last == null){last = end;}
         List<Point> path = new LinkedList<Point>();
 
-        if (!open.contains(begin)){ open.add(begin);}
+        if (!open.contains(begin) ){ open.add(begin);}
         Point current = start;
 
             List<Point> validAdj = potentialNeighbors.apply(current)
                     .filter(canPassThrough)
                     .filter(pt -> !closed.containsKey(pt))
-                    .limit(4)
+                    .limit(8)
                     .collect(Collectors.toList());
 
             double f = manhattanDistance(open.peek(), begin) + manhattanDistance(open.peek(), end);
@@ -56,7 +56,7 @@ class AStarPathingStrategy
         return path;
     }
 
-    public double manhattanDistance(Point start, Point end){
+    private double manhattanDistance(Point start, Point end){
         return Math.abs(start.x - end.x) + Math.abs(start.y - end.y);
     }
 }
