@@ -1,3 +1,4 @@
+
 final class Point
 {
    public final int x;
