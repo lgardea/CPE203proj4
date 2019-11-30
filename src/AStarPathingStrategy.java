@@ -46,9 +46,11 @@ class AStarPathingStrategy
                     next = pt;
                 }
                 closed.put(pt, g + h);
+                open.remove(pt);
             }
             current = next;
-            path.add(current);
+            if (current != null){
+            path.add(current);}
         return path;
     }
 
