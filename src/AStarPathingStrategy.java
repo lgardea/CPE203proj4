@@ -25,7 +25,7 @@ class AStarPathingStrategy
         List<Point> path = new LinkedList<Point>();
         if (!open.contains(start) ){ open.add(start);}
         Point current = start;
-        while(!current.adjacent(end)) {
+        while(!withinReach.test(current, end)) {
             List<Point> validAdj = potentialNeighbors.apply(current)
                     .filter(canPassThrough)
                     .filter(pt -> !closed.containsKey(pt))
