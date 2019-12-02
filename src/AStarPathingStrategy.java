@@ -17,6 +17,7 @@ class AStarPathingStrategy
     });
     Point begin = null;
     Point last = null;
+    Point goal;
 
     public List<Point> computePath(Point start, Point end,
                                    Predicate<Point> canPassThrough,
@@ -30,6 +31,7 @@ class AStarPathingStrategy
         if (!open.contains(begin) ){ open.add(begin);}
         Point current = start;
 
+        while(!current.adjacent(last)) {
             List<Point> validAdj = potentialNeighbors.apply(current)
                     .filter(canPassThrough)
                     .filter(pt -> !closed.containsKey(pt))
@@ -38,6 +40,7 @@ class AStarPathingStrategy
 
             double f = manhattanDistance(open.peek(), begin) + manhattanDistance(open.peek(), end);
             for (Point pt : validAdj) {
+                pt.previous = current;
                 if (!open.contains(pt)) {
                     open.add(pt);
                 }
@@ -51,8 +54,14 @@ class AStarPathingStrategy
             closed.put(current, manhattanDistance(begin, current) + manhattanDistance(current, end) + 1);
             open.remove(current);
             current = open.peek();
-            if (current != null){
-            path.add(current);}
+            goal = current;
+        }
+            Point pt = goal;
+            while(pt != begin){
+                path.add(0, pt);
+                pt = pt.previous;
+            }
+
         return path;
     }
 

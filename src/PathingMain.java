@@ -167,8 +167,8 @@ public class PathingMain extends PApplet
    {
       List<Point> points;
 
-      while (!neighbors(pos, goal))
-      {
+      //while (!neighbors(pos, goal))
+      //{
          points = strategy.computePath(pos, goalPos,
                               p ->  withinBounds(p, grid) && grid[p.y][p.x] != GridValues.OBSTACLE,
                               (p1, p2) -> neighbors(p1,p2),
@@ -182,10 +182,10 @@ public class PathingMain extends PApplet
             return false;
          }
 
-         pos = points.get(0);
-         path.add(pos);
+         //pos = points.get(0);
+         //path.add(pos);
          path.addAll(points);
-      }
+      //}
       System.out.println("Path found");
       return true;
    }
