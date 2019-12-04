@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 class AStarPathingStrategy
         implements PathingStrategy
 {
-    Point goal;
+    private Point goal;
 
     public List<Point> computePath(Point start, Point end,
                                    Predicate<Point> canPassThrough,
@@ -18,13 +18,14 @@ class AStarPathingStrategy
         HashMap closed = new HashMap();
         PriorityQueue<Point> open = new PriorityQueue(10, new Comparator<Point>() {
             public int compare(Point o1, Point o2) {
-                return (int)( (manhattanDistance(start, o1) + manhattanDistance(end, o1) )
-                        - (manhattanDistance(start, o2) + manhattanDistance(end, o2)) );
+                return (int)( (manhattanDistance(start, o1.previous) + manhattanDistance(end, o1) )
+                        - (manhattanDistance(start, o2.previous) + manhattanDistance(end, o2)) );
             }
         });
         List<Point> path = new LinkedList<Point>();
         if (!open.contains(start) ){ open.add(start);}
         Point current = start;
+        current.previous = current;
         while(!withinReach.test(current, end)) {
             List<Point> validAdj = potentialNeighbors.apply(current)
                     .filter(canPassThrough)
@@ -33,11 +34,12 @@ class AStarPathingStrategy
                     .collect(Collectors.toList());
             for (Point pt : validAdj) {
                 pt.previous = current;
-                if (!open.contains(pt)) {
-                    open.add(pt);
-                }
+                /*if (open.contains(pt)) {
+                    open.remove(pt);
+                }*/
+                open.add(pt);
             }
-            closed.put(current, manhattanDistance(start, current) + manhattanDistance(current, end) +1);
+            closed.put(current, manhattanDistance(start, current.previous) + manhattanDistance(current, end) +1);
             open.remove(current);
             current = open.peek();
             if (current == null){

@@ -172,9 +172,9 @@ public class PathingMain extends PApplet
          points = strategy.computePath(pos, goalPos,
                               p ->  withinBounds(p, grid) && grid[p.y][p.x] != GridValues.OBSTACLE,
                               (p1, p2) -> neighbors(p1,p2),
-                              PathingStrategy.CARDINAL_NEIGHBORS);
+                              //PathingStrategy.CARDINAL_NEIGHBORS);
                               //DIAGONAL_NEIGHBORS);
-                              //DIAGONAL_CARDINAL_NEIGHBORS);
+                              DIAGONAL_CARDINAL_NEIGHBORS);
 
          if (points.size() == 0)
          {
